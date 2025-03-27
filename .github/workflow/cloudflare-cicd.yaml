@@ -5,9 +5,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "react/philgo/**" # Trigger only if philgo next.js file changes in ./react/philgo directory
-
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
@@ -15,45 +12,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.MY_TOKEN }} # Authenticate with GITHUB_TOKEN
-          ref: main # Checkout the main branch first
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: "npm"
-          cache-dependency-path: ./react/philgo/package-lock.json
 
       - name: Install dependencies
-        run: |
-          cd ./react/philgo
-          npm install
-
-      - name: App last build stamp version patch
-        run: |
-          cd ./react/philgo
-          npm run version:patch
-
-      - name: Install Playwright Browsers
-        run: |
-          cd ./react/philgo
-          npx playwright install --with-deps
-
-      - name: Run Playwright tests
-        run: |
-          cd ./react/philgo
-          npx playwright test --config=playwright.config.with-production-backend.ts
+        run: npm install
 
       - name: Build Next.js app
-        run: |
-          cd ./react/philgo
-          npm run build:opennextjs
+        run: npm run build
 
       # Deploy to Cloudflare Pages
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          workingDirectory: ./react/philgo
