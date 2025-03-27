@@ -1,13 +1,7 @@
 "use client";
 import { getMimeType, uploadImage } from "@/lib/firebase/firebase.functions";
 import { useReducer } from "react";
-import {
-  initialState,
-  reducer,
-  setImageUrl,
-  setProduct,
-  setProgress,
-} from "./page.reducer";
+import { initialState, reducer, setImageUrl, setProduct, setProgress } from "./page.reducer";
 import Image from "next/image";
 import { FileDataPart, getGenerativeModel } from "firebase/vertexai";
 import { vertexAI } from "@/lib/firebase/clientApp";
@@ -74,7 +68,7 @@ export default function Home() {
   return (
     <section className="flex flex-col items-center justify-between gap-5">
       <header className="flex items-center justify-between w-full p-5 bg-gray-100 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold">Luxury Product</h1>
+        <h1 className="text-2xl font-bold">Luxury Product v2</h1>
       </header>
       <div className="flex flex-col items-center justify-center  gap-5">
         <section className="flex flex-col items-center justify-center gap-5">
@@ -99,6 +93,7 @@ export default function Home() {
                 })
               }
             />
+
             {!state.imageUrl && (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
