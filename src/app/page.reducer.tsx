@@ -43,7 +43,13 @@ export function reducer(
     case "resetProduct":
       return { ...state, product: null };
     case "setImageUrl":
-      return { ...state, imageUrl: action.imageUrl, progress: 0 };
+      return {
+        ...state,
+        imageUrl: action.imageUrl,
+        progress: 0,
+        product: null,
+        loading: true,
+      };
     case "removeImageUrl":
       return { ...state, imageUrl: null };
     case "setProgress":
@@ -64,7 +70,7 @@ export function resetProduct() {
   return { type: "resetProduct" };
 }
 export function setImageUrl(imageUrl: string) {
-  return { type: "setImageUrl", imageUrl, product: null };
+  return { type: "setImageUrl", imageUrl };
 }
 export function removeImageUrl() {
   return { type: "removeImageUrl" };

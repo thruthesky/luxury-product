@@ -3,7 +3,6 @@ import { getMimeType, uploadImage } from "@/lib/firebase/firebase.functions";
 import { useReducer } from "react";
 import {
   initialState,
-  loadingOn,
   reducer,
   setImageUrl,
   setProduct,
@@ -20,9 +19,6 @@ export default function Home() {
 
   async function getProductDetails(url: string) {
     console.log("Getting product details for image URL:", url);
-
-    dispatch(loadingOn());
-
     const productModel = getGenerativeModel(vertexAI, {
       model: "gemini-2.0-flash",
       systemInstruction:
@@ -35,8 +31,8 @@ export default function Home() {
 
     const result = await productModel.generateContent([
       `
-      YOU are an AI Product Expert.
-      You will be given an image of a product and you will return the details of the product.
+      You are an AI Product Expert.
+      You will be given an image of a product and you will return the facts details of the product.
       You will return the details in JSON format.
       You will return the details in the following format:
       {
@@ -51,7 +47,7 @@ export default function Home() {
         description: string,
         website: string,
       }
-      You need to look for fact information of the product.
+      You need to look for facts information of the product.
       You need to look for the name of the product.
       You need to look for the brand of the product.
       You need to look for the company of the product.
@@ -77,15 +73,15 @@ export default function Home() {
 
   return (
     <section className="flex flex-col items-center justify-between gap-5">
-      <header className="flex items-center justify-between w-full max-w-5xl p-4 bg-gray-100 rounded-lg shadow-md">
+      <header className="flex items-center justify-between w-full p-5 bg-gray-100 rounded-lg shadow-md">
         <h1 className="text-2xl font-bold">Luxury Product</h1>
       </header>
       <div className="flex flex-col items-center justify-center  gap-5">
         <section className="flex flex-col items-center justify-center gap-5">
           <h2 className="text-xl font-bold">Upload an image</h2>
-          <section className="relative overflow-hidden p-5 border-2 border-gray-300 rounded-lg shadow-md flex flex-col items-center justify-center">
+          <section className="relative overflow-hidden p-1 border-2 border-gray-300 rounded-lg shadow-md flex flex-col items-center justify-center min-w-52 min-h-52">
             <input
-              className="absolute bottom-0 left-0 right-0 top-0 text-8xl opacity-0 cursor-pointer"
+              className="absolute bottom-0 right-0 top-0 opacity-1 cursor-pointer text-9xl"
               type="file"
               accept="image/png, image/jpeg, image/jpg"
               onChange={(e) =>
@@ -121,11 +117,13 @@ export default function Home() {
             )}
             {state.imageUrl && (
               <Image
+                key={state.imageUrl}
+                className="rounded-sm"
                 src={state.imageUrl}
                 alt="Product"
-                width={400}
-                height={400}
-                style={{ width: "auto", height: "100%" }}
+                width={256}
+                height={256}
+                style={{ width: "auto", height: "auto" }}
               />
             )}
           </section>
@@ -142,7 +140,9 @@ export default function Home() {
         </section>
         {!state.product && (
           <section className="flex flex-col items-center justify-center gap-5">
-            <p>Upload luxury product like bag, wallet, watch, jewelry, etc. </p>
+            <p className="text-gray-500">
+              Upload luxury product like bag, wallet, watch, jewelry, etc.{" "}
+            </p>
           </section>
         )}
 
