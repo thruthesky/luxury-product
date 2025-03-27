@@ -2,9 +2,8 @@ name: PhilGo Next.js CI/CD
 
 # Trigger the workflow on push or pull request events
 on:
-  push:
-    branches:
-      - main
+  branches:
+    - main
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
