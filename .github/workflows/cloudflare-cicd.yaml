@@ -1,4 +1,4 @@
-name: PhilGo Next.js CI/CD
+name: Luxury Product CI/CD
 
 # Trigger the workflow on push or pull request events
 on:
